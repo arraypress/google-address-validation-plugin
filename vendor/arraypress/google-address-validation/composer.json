@@ -1,0 +1,47 @@
+{
+  "name": "arraypress/google-address-validation",
+  "version": "1.0.0",
+  "description": "A PHP library for integrating with the Google Address Validation API in WordPress, providing comprehensive address validation, standardization, and verification. Features WordPress transient caching and WP_Error support.",
+  "type": "library",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/arraypress/google-address-validation/",
+  "authors": [
+    {
+      "name": "David Sherlock",
+      "homepage": "https://arraypress.com/"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "ArrayPress\\Google\\AddressValidation\\": "src/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "support": {
+    "issues": "https://github.com/arraypress/google-address-validation/issues",
+    "source": "https://github.com/arraypress/google-address-validation"
+  },
+  "keywords": [
+    "address-validation",
+    "address-verification",
+    "usps-validation",
+    "address-standardization",
+    "google-maps",
+    "address-components",
+    "postal-verification",
+    "wordpress",
+    "address-parsing",
+    "business-validation",
+    "po-box-detection",
+    "international-addresses",
+    "location-validation",
+    "geocoding"
+  ]
+}

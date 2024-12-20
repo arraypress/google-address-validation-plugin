@@ -1,0 +1,239 @@
+/* Form Validation Styles */
+.address-validation-test input.validation-error {
+    border-color: #cc1818;
+    box-shadow: 0 0 2px rgba(204, 24, 24, 0.8);
+}
+
+.address-validation-test input.validation-error:focus {
+    border-color: #cc1818;
+    box-shadow: 0 0 2px rgba(204, 24, 24, 0.8);
+}
+
+.address-validation-test .address-validation-test-container {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0;
+}
+
+.address-validation-test .address-validation-test-section {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+/* Form Styles */
+.address-validation-test .validation-form .form-table {
+    margin-top: 0;
+}
+
+.address-validation-test .validation-form .submit {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* Select Dropdown Styles */
+.address-validation-test select {
+    max-width: 25em;
+}
+
+/* Address Components Display */
+.address-validation-test .address-components {
+    margin: 0;
+}
+
+.address-validation-test .address-components dt {
+    font-weight: bold;
+    float: left;
+    clear: left;
+    margin-right: 0.5rem;
+    min-width: 150px;
+}
+
+.address-validation-test .address-components dd {
+    margin: 0 0 0.5rem 160px;
+}
+
+/* Results Table Styles */
+.address-validation-test table.widefat {
+    margin: 1rem 0;
+    border: 1px solid #ccd0d4;
+    box-shadow: none;
+}
+
+.address-validation-test table.widefat th {
+    width: 200px;
+    background: #f8f9fa;
+}
+
+.address-validation-test table.widefat td {
+    padding: 12px;
+}
+
+/* Helper Text Styles */
+.address-validation-test .description {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+/* Notice Styles */
+.address-validation-test .notice {
+    margin: 1rem 0;
+}
+
+/* Cache Section Styles */
+.address-validation-test .cache-section {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+/* USPS Data Section Styles */
+.address-validation-test .usps-data {
+    background: #f0f6fc;
+    padding: 1rem;
+    border-left: 4px solid #2271b1;
+    margin: 1rem 0;
+}
+
+/* Language Selector Styles */
+.address-validation-test .language-selector {
+    max-width: 300px;
+}
+
+/* Status Indicators */
+.address-validation-test .status-indicator {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.address-validation-test .status-success {
+    background: #edfaef;
+    color: #0a5c16;
+}
+
+.address-validation-test .status-warning {
+    background: #fff8e5;
+    color: #915700;
+}
+
+.address-validation-test .status-error {
+    background: #fcf0f1;
+    color: #cc1818;
+}
+
+/* Settings Section Styles */
+.address-validation-test .settings-section {
+    border-top: 1px solid #ccd0d4;
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 782px) {
+    .address-validation-test .address-validation-test-container {
+        flex-direction: column;
+    }
+
+    .address-validation-test .address-validation-test-section {
+        width: 100%;
+    }
+
+    .address-validation-test table.widefat th {
+        width: auto;
+    }
+
+    .address-validation-test .address-components dt {
+        float: none;
+        margin-bottom: 0.25rem;
+    }
+
+    .address-validation-test .address-components dd {
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+
+    .address-validation-test select {
+        max-width: 100%;
+    }
+}
+
+/* Validation Score Styles */
+.validation-score {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.score-number {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.score-rating {
+    padding: 0.25rem 0.75rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+/* Score color variations */
+.score-high {
+    background-color: #e8f5e9;
+}
+
+.score-high .score-number {
+    color: #2e7d32;
+}
+
+.score-high .score-rating {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.score-good {
+    background-color: #f0f4c3;
+}
+
+.score-good .score-number {
+    color: #827717;
+}
+
+.score-good .score-rating {
+    background-color: #827717;
+    color: white;
+}
+
+.score-fair {
+    background-color: #fff3e0;
+}
+
+.score-fair .score-number {
+    color: #e65100;
+}
+
+.score-fair .score-rating {
+    background-color: #e65100;
+    color: white;
+}
+
+.score-low {
+    background-color: #ffebee;
+}
+
+.score-low .score-number {
+    color: #c62828;
+}
+
+.score-low .score-rating {
+    background-color: #c62828;
+    color: white;
+}
