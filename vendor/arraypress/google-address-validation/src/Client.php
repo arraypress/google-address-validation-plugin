@@ -13,6 +13,7 @@ declare( strict_types=1 );
 
 namespace ArrayPress\Google\AddressValidation;
 
+use ArrayPress\Google\AddressValidation\Traits\Parameters;
 use WP_Error;
 
 /**
@@ -21,13 +22,7 @@ use WP_Error;
  * A comprehensive utility class for interacting with the Google Address Validation API.
  */
 class Client {
-
-	/**
-	 * API key for Google Address Validation
-	 *
-	 * @var string
-	 */
-	private string $api_key;
+	use Parameters;
 
 	/**
 	 * Base URL for the Address Validation API
@@ -37,68 +32,54 @@ class Client {
 	private const API_ENDPOINT = 'https://addressvalidation.googleapis.com/v1:validateAddress';
 
 	/**
-	 * Whether to enable response caching
-	 *
-	 * @var bool
-	 */
-	private bool $enable_cache;
-
-	/**
-	 * Cache expiration time in seconds
-	 *
-	 * @var int
-	 */
-	private int $cache_expiration;
-
-	/**
 	 * Initialize the Address Validation client
 	 *
 	 * @param string $api_key          API key for Google Address Validation
 	 * @param bool   $enable_cache     Whether to enable caching (default: true)
 	 * @param int    $cache_expiration Cache expiration in seconds (default: 24 hours)
 	 */
-	public function __construct( string $api_key, bool $enable_cache = true, int $cache_expiration = 86400 ) {
-		$this->api_key          = $api_key;
-		$this->enable_cache     = $enable_cache;
-		$this->cache_expiration = $cache_expiration;
+	public function __construct( string $api_key, bool $enable_cache = true, int $cache_expiration = DAY_IN_SECONDS ) {
+		$this->set_api_key( $api_key );
+		$this->set_cache_enabled( $enable_cache );
+		$this->set_cache_expiration( $cache_expiration );
 	}
 
 	/**
 	 * Validate an address
 	 *
-	 * @param string|array $address           Address to validate (string or array of components)
-	 * @param array        $options           Additional options for validation
-	 * @param string|null  $previous_response Previous response ID for sequential validation
-	 * @param string|null  $session_token     Session token for billing purposes
+	 * @param string|array $address Address to validate (string or array of components)
+	 * @param array        $options Additional options for validation (optional, overrides instance options)
 	 *
 	 * @return Response|WP_Error Response object or WP_Error on failure
 	 */
-	public function validate( $address, array $options = [], ?string $previous_response = null, ?string $session_token = null ) {
+	public function validate( $address, array $options = [] ) {
+		// Merge instance options with provided options
+		$final_options = array_merge( $this->get_all_options(), $options );
+
 		// Prepare the request body
 		$body = [
 			'address' => $this->prepare_address( $address )
 		];
 
 		// Add optional parameters
-		if ( $previous_response ) {
-			$body['previousResponseId'] = $previous_response;
+		if ( ! empty( $final_options['previous_response'] ) ) {
+			$body['previousResponseId'] = $final_options['previous_response'];
 		}
 
-		if ( isset( $options['enable_usps'] ) ) {
-			$body['enableUspsCass'] = (bool) $options['enable_usps'];
+		if ( isset( $final_options['enable_usps'] ) ) {
+			$body['enableUspsCass'] = (bool) $final_options['enable_usps'];
 		}
 
-		if ( isset( $options['language_options'] ) ) {
-			$body['languageOptions'] = $options['language_options'];
+		if ( ! empty( $final_options['language_options'] ) ) {
+			$body['languageOptions'] = $final_options['language_options'];
 		}
 
-		if ( $session_token ) {
-			$body['sessionToken'] = $session_token;
+		if ( ! empty( $final_options['session_token'] ) ) {
+			$body['sessionToken'] = $final_options['session_token'];
 		}
 
 		// Generate cache key if caching is enabled
-		$cache_key = null;
-		if ( $this->enable_cache ) {
+		if ( $this->is_cache_enabled() ) {
 			$cache_key   = $this->get_cache_key( wp_json_encode( $body ) );
 			$cached_data = get_transient( $cache_key );
 			if ( false !== $cached_data ) {
@@ -113,8 +94,8 @@ class Client {
 		}
 
 		// Cache the response if caching is enabled
-		if ( $this->enable_cache && $cache_key ) {
-			set_transient( $cache_key, $response, $this->cache_expiration );
+		if ( $this->is_cache_enabled() ) {
+			set_transient( $cache_key, $response, $this->get_cache_expiration() );
 		}
 
 		return new Response( $response );
@@ -168,7 +149,7 @@ class Client {
 	 * @return array|WP_Error Response array or WP_Error on failure
 	 */
 	private function make_request( array $body ) {
-		$url = add_query_arg( [ 'key' => $this->api_key ], self::API_ENDPOINT );
+		$url = add_query_arg( [ 'key' => $this->get_api_key() ], self::API_ENDPOINT );
 
 		$response = wp_remote_post( $url, [
 			'timeout' => 15,
@@ -210,7 +191,6 @@ class Client {
 			);
 		}
 
-		// Check for API errors
 		if ( isset( $data['error'] ) ) {
 			return new WP_Error(
 				'api_error',

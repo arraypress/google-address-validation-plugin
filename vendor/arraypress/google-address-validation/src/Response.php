@@ -803,4 +803,87 @@ class Response {
 		       ! $this->is_address_complete();
 	}
 
+	/**
+	 * Calculate a validation score for the address (0-100)
+	 *
+	 * Provides a numerical score indicating how likely the address is to be valid
+	 * based on various validation factors.
+	 *
+	 * Scoring factors:
+	 * - Address completeness: 30 points
+	 * - No unconfirmed components: 20 points
+	 * - No inferred components: 15 points
+	 * - No replaced components: 10 points
+	 * - Has geocode data: 10 points
+	 * - Has postal code: 5 points
+	 * - Has precise location: 5 points
+	 * - USPS validation (if applicable): 5 points
+	 *
+	 * @return int Score from 0 to 100
+	 */
+	public function get_score(): int {
+		$score = 0;
+
+		// Address completeness (30 points)
+		if ( $this->is_address_complete() ) {
+			$score += 30;
+		}
+
+		// No unconfirmed components (20 points)
+		if ( ! $this->has_unconfirmed_components() ) {
+			$score += 20;
+		}
+
+		// No inferred components (15 points)
+		if ( ! $this->has_inferred_components() ) {
+			$score += 15;
+		}
+
+		// No replaced components (10 points)
+		if ( ! $this->has_replaced_components() ) {
+			$score += 10;
+		}
+
+		// Has geocode data (10 points)
+		if ( $this->get_geocode() !== null ) {
+			$score += 10;
+		}
+
+		// Has postal code (5 points)
+		if ( $this->get_postal_code() !== null ) {
+			$score += 5;
+		}
+
+		// Has precise location (5 points)
+		if ( $this->is_precisely_located() ) {
+			$score += 5;
+		}
+
+		// USPS validation bonus (5 points)
+		if ( $this->get_usps_data() !== null && $this->get_dpv_confirmation() === self::USPS_CONFIRMED ) {
+			$score += 5;
+		}
+
+		return $score;
+	}
+
+	/**
+	 * Get a descriptive rating based on the validation score
+	 *
+	 * @return string Rating description
+	 */
+	public function get_rating(): string {
+		$score = $this->get_score();
+
+		if ( $score >= 90 ) {
+			return __( 'Excellent - Highly reliable address', 'arraypress' );
+		} elseif ( $score >= 75 ) {
+			return __( 'Good - Reliable address with minor issues', 'arraypress' );
+		} elseif ( $score >= 50 ) {
+			return __( 'Fair - Address may need verification', 'arraypress' );
+		} else {
+			return __( 'Poor - Address needs significant verification', 'arraypress' );
+		}
+	}
+
 }

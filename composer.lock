@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/arraypress/google-address-validation.git",
-                "reference": "94ac846dfa70d876b8404173c5a72fd0bea78305"
+                "reference": "781c602aad3eedf8f8a81ea1da7c4e6fc577a66f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arraypress/google-address-validation/zipball/94ac846dfa70d876b8404173c5a72fd0bea78305",
-                "reference": "94ac846dfa70d876b8404173c5a72fd0bea78305",
+                "url": "https://api.github.com/repos/arraypress/google-address-validation/zipball/781c602aad3eedf8f8a81ea1da7c4e6fc577a66f",
+                "reference": "781c602aad3eedf8f8a81ea1da7c4e6fc577a66f",
                 "shasum": ""
             },
             "require": {
@@ -61,7 +61,7 @@
                 "issues": "https://github.com/arraypress/google-address-validation/issues",
                 "source": "https://github.com/arraypress/google-address-validation"
             },
-            "time": "2024-12-17T21:05:57+00:00"
+            "time": "2024-12-21T17:19:40+00:00"
         }
     ],
     "packages-dev": [],
